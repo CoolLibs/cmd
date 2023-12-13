@@ -4,6 +4,7 @@ project(cmd-tests)
 add_executable(${PROJECT_NAME}
     CircularBuffer.cpp
     History.cpp
+    Serialization.cpp
 )
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
@@ -36,6 +37,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(doctest)
 target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)
+
+FetchContent_Declare(
+    cereal
+    GIT_REPOSITORY https://github.com/USCiLab/cereal
+    GIT_TAG ebef1e929807629befafbb2918ea1a08c7194554
+    SYSTEM
+)
+FetchContent_MakeAvailable(cereal)
+target_link_libraries(${PROJECT_NAME} PRIVATE cereal::cereal)
 
 # ---Ignore .vscode/settings.json in Git---
 find_package(Git QUIET)

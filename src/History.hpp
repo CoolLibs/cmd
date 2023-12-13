@@ -157,6 +157,14 @@ public:
         }
     }
 
+    auto operator==(const History<CommandT>& other) const -> bool
+    {
+        auto commands_equal = _commands == other._commands;
+        // auto next_equal     = _next_command_to_execute == other._next_command_to_execute;
+        auto next_equal = unsafe_get_next_command_to_execute() == other.unsafe_get_next_command_to_execute();
+        return commands_equal && next_equal;
+    }
+
 private:
     template<typename CommandType, typename MergerType> // CommandType instead of CommandT to not override CommandT which is already the template parameter of the whole class; CommandT and CommandType need to be different otherwise perfect forwarding won't kick in
     void push_impl(CommandType&& command, const MergerType& merger)
